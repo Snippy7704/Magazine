@@ -46,7 +46,8 @@ public class ProductController : ControllerBase
         {
             return NotFound();
         }
-        return editedProduct;
+
+        return Ok(editedProduct);
     }
 
     [HttpGet]  
@@ -61,9 +62,8 @@ public class ProductController : ControllerBase
     {
         var product = await _productService.Search(id);
         if (product == null)
-        {
             return NotFound();
-        }
-        return product;
+
+        return Ok(product);
     }
 }
