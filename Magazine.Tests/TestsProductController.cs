@@ -26,8 +26,8 @@ namespace Magazine.Tests
             // Arrange
             var products = new List<Product>
             {
-                new Product { Id = Guid.NewGuid(), Name = "Product1", Price = 100, Definition = "Def1", Image = "img1.jpg" },
-                new Product { Id = Guid.NewGuid(), Name = "Product2", Price = 200, Definition = "Def2", Image = "img2.jpg" }
+                new Product { Id = Guid.NewGuid(), Name = "Product1", Price = 100, Definition = "Def1", Image = "img1.jpg", Category = "Cat1" },
+                new Product { Id = Guid.NewGuid(), Name = "Product2", Price = 200, Definition = "Def2", Image = "img2.jpg", Category = "Cat2" }
             };
 
             _mockService.Setup(x => x.GetAll()).ReturnsAsync(products);
@@ -46,14 +46,15 @@ namespace Magazine.Tests
         public async Task Add_ShouldReturnCreatedAtActionResult()
         {
             // Arrange
-            var product = new Product { Name = "New Product", Price = 500, Definition = "Def", Image = "img.jpg" };
+            var product = new Product { Name = "New Product", Price = 500, Definition = "Def", Image = "img.jpg", Category = "Electronics" };
             var createdProduct = new Product
             {
                 Id = Guid.NewGuid(),
                 Name = product.Name,
                 Price = product.Price,
                 Definition = product.Definition,
-                Image = product.Image
+                Image = product.Image,
+                Category = product.Category
             };
 
             _mockService.Setup(x => x.Add(It.IsAny<Product>())).ReturnsAsync(createdProduct);
@@ -73,7 +74,7 @@ namespace Magazine.Tests
         {
             // Arrange
             var productId = Guid.NewGuid();
-            var product = new Product { Id = productId, Name = "Product", Price = 100, Definition = "Def", Image = "img.jpg" };
+            var product = new Product { Id = productId, Name = "Product", Price = 100, Definition = "Def", Image = "img.jpg", Category = "TestCat" };
 
             _mockService.Setup(x => x.Search(productId)).ReturnsAsync(product);
 
@@ -83,7 +84,6 @@ namespace Magazine.Tests
             // Assert
             Assert.That(result, Is.Not.Null);
 
-            // ИСПРАВЛЕНИЕ: проверяем Result или Value
             var okResult = result.Result as OkObjectResult;
             if (okResult == null && result.Value != null)
             {
@@ -113,7 +113,7 @@ namespace Magazine.Tests
         {
             // Arrange
             var productId = Guid.NewGuid();
-            var product = new Product { Id = productId, Name = "Updated Product", Price = 999, Definition = "Def", Image = "img.jpg" };
+            var product = new Product { Id = productId, Name = "Updated Product", Price = 999, Definition = "Def", Image = "img.jpg", Category = "UpdatedCat" };
 
             _mockService.Setup(x => x.Edit(It.IsAny<Product>())).ReturnsAsync(product);
 
@@ -123,7 +123,6 @@ namespace Magazine.Tests
             // Assert
             Assert.That(result, Is.Not.Null);
 
-            // ИСПРАВЛЕНИЕ: проверяем Result или Value
             var okResult = result.Result as OkObjectResult;
             if (okResult == null && result.Value != null)
             {
@@ -139,7 +138,7 @@ namespace Magazine.Tests
         {
             // Arrange
             var productId = Guid.NewGuid();
-            var product = new Product { Id = Guid.NewGuid(), Name = "Product", Price = 100, Definition = "Def", Image = "img.jpg" };
+            var product = new Product { Id = Guid.NewGuid(), Name = "Product", Price = 100, Definition = "Def", Image = "img.jpg", Category = "Cat" };
 
             // Act
             var result = await _controller.Edit(productId, product);
@@ -153,7 +152,7 @@ namespace Magazine.Tests
         {
             // Arrange
             var productId = Guid.NewGuid();
-            var product = new Product { Id = productId, Name = "Product", Price = 100, Definition = "Def", Image = "img.jpg" };
+            var product = new Product { Id = productId, Name = "Product", Price = 100, Definition = "Def", Image = "img.jpg", Category = "Cat" };
 
             _mockService.Setup(x => x.Edit(It.IsAny<Product>())).ReturnsAsync((Product)null);
 
@@ -169,7 +168,7 @@ namespace Magazine.Tests
         {
             // Arrange
             var productId = Guid.NewGuid();
-            var product = new Product { Id = productId, Name = "Product", Price = 100, Definition = "Def", Image = "img.jpg" };
+            var product = new Product { Id = productId, Name = "Product", Price = 100, Definition = "Def", Image = "img.jpg", Category = "Cat" };
 
             _mockService.Setup(x => x.Remove(It.IsAny<Guid>())).ReturnsAsync(product);
 
@@ -179,7 +178,6 @@ namespace Magazine.Tests
             // Assert
             Assert.That(result, Is.Not.Null);
 
-            // ИСПРАВЛЕНИЕ: проверяем Result или Value
             var okResult = result.Result as OkObjectResult;
             if (okResult == null && result.Value != null)
             {

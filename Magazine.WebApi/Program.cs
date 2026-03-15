@@ -1,17 +1,19 @@
 using Magazine.Core.Services;
 using Magazine.WebApi.Services;
 using Magazine.WebApi.Database;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
-// Регистрируем DataBase как Singleton
-builder.Services.AddSingleton<DataBase>();
+// Регистрируем ApplicationContext с использованием SQLite
+builder.Services.AddDbContext<ApplicationContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Регистрируем ProductService (теперь он использует DataBase)
-builder.Services.AddSingleton<IProductService, ProductService>();
+// Регистрируем DataBaseProductService как Scoped (важно!)
+builder.Services.AddScoped<IProductService, DataBaseProductService>();
 
 var app = builder.Build();
 
@@ -22,6 +24,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+
 
 var summaries = new[]
 {
