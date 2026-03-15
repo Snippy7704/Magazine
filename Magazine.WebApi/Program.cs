@@ -7,7 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddControllers();
+builder.Services.AddSingleton<IProductService, ProductService>();
 
 var app = builder.Build();
 
@@ -18,6 +19,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapControllers();
 
 var summaries = new[]
 {

@@ -1,0 +1,1 @@
+[{"Id":"3a4bf0b3-f48d-4173-85b5-d8a0a4c17ef7","Definition":"Smartphone","Name":"iPhone 15 Pro","Price":99999.99,"Image":"iphone15pro.jpg"}]
